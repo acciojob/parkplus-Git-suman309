@@ -1,30 +1,34 @@
 package com.driver.model;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int pricePerHour;
+     int id;
+     int pricePerHour;
 
     @Enumerated(value = EnumType.STRING)  //data type of spottype
-    private SpotType spotType;
+     SpotType spotType;
 
     //The name of the table that contains the column. If absent the column is assumed to be in the primary table.
     @Column(columnDefinition = "TINYINT(1)")
-    private boolean occupied;
+     boolean occupied;
 
 
     @ManyToOne  // spot to parking lot relation (child-parent)
     @JoinColumn
     private ParkingLot parkingLot;
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
-    private List<Reservation> reservationList = new ArrayList<>();
+     List<Reservation> reservationList = new ArrayList<>();
 
     public Spot() {
     }
